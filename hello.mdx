@@ -1,242 +1,161 @@
-How Credits Work
+# Scrape API
 
-Upon starting an account or new subscription with Datafiniti you will receive a new allotment of credit to your account. Your credits allow you to download records when opting to download a search.
+Get the web data you need in real-time
 
-## Where can I find my current credits used?
+## Overview
 
-You can use the your get account API call to pull your account detail for no charge.
+Our `/scrape` endpoint allows you to get the web data you need in real-time.
 
-GET https://api.datafiniti.co/v4/account
+## Endpoint
 
-An example of what a response would look like:
+`POST https://api.datafiniti.co/v4/scrape`
 
-```json JSO
- {
-            "role": "user",
-            "num_credits_used": 0,
-            "product_credits_used": 0,
-            "people_credits_used": 0,
-            "property_credits_used": 0,
-            "business_credits_used": 0,
-            "num_scrape_credits_used": 0,
-            "disabled_code": 0,
-            "plan_ids": [
-                "people-1k-99",
-                "property-10k-349",
-                "business-1k-trial",
-                "product-1k-trial"
-            ],
-            "auto_collect_enabled": true,
-            "overage_limit": 100,
-            "payment_type": "cc",
-            "overages_enabled": false,
-            "first_name": "leonard Mcgee",
-            "last_name": "Trahan",
-            "email": "lentrahan@gmail.com",
-            "organization": "test5",
-            "features": [
+## Input
+
+A json object containing the `urls` you want to scrape data from. The json object is structured like so:
+
+```json
+{
+    "urls": []
+}
+```
+
+You can either provide the URL you want to scrape as a string or you can choose to provide an object that contains the `domain` along with an `identifier` (e.g. SKU, ASIN) unique to the domain provided.\
+The following snippet contains an example of the accepted URL formats described above:
+
+```json
+{
+    "urls": [
+        "https://www.amazon.com/dp/B07ZMGJCC4?productDetails&th=1&psc=1",
+        {
+            "domain": "amazon.com",
+            "identifier": "B07ZMGJCC4"
+        },
+        "https://www.newegg.com/p/1Z4-002P-015K6"
+    ]
+}
+```
+
+<Callout kind="info" title="Which URL format should I use?">
+`identifier` corresponds to fields in our [Product Data Schema](https://docs.datafiniti.co/docs/product-data-schema) which helps users that are already integrated with Datafiniti. If you are unfamiliar with our schema or if identifiers are providing any confusion, simply provide URLs as strings instead.
+</Callout>
+
+The `urls` array must contain 1 URL at minimum with a maximum of 10. The URLs provided do not have to be from the same domain. We will scrape all URLs provided in the request body in parallel so long as we support them. The sources that we currently support can be found [Here](https://docs.datafiniti.co/docs/getting-started-with-realtime-updates). Please contact customer support if the source you want to scrape is not present in the hyperlinked section.
+
+<Callout kind="info" title="Rate Limiting">
+You may only make one request to the `/scrape` endpoint at a time.
+</Callout>
+
+## Output
+
+The response body returned to you is a json object that either contains a `data` array or an `errors` array. These arrays are mutually exclusive.
+
+The presence of an `errors` array indicates that a fatal error occurred and none of the URLs provided in your request body were processed. The `errors` array will contain strings that indicate why we could not service your request. Please contact customer support and provide us with the request body that yielded an `errors` response should this occur to you during your usage of this feature. Please provide us with the response body returned to you as well.
+
+The presence of a `data` array indicates that we were able to attempt scraping the URLs you provided in your request body. Each element in the `data` array will correspond to one of the URLs you provided in your request. These elements are json objects and will always contain the following fields:
+
+* `input`: An individual URL from the URLs array provided in your request body.
+* `finalized_url`: The resulting URL from generated from the URL you provided.
+* `results`: An array containing the data we scraped from the URL.
+* `errors`: An array containing error messages if any were encountered while attempting to scrape a specific URL. This errors array will always be present. It will be empty if no errors were encountered.
+* `credits_charged`: The number of scrape credits charged for the url. You will only get charged when the scrape is successful.
+
+The following snippet is an example response body:
+
+```json
+{
+    "data": [
+        {
+            "input": {
+                "domain": "amazon.com",
+                "identifier": "B07ZMGJCC4"
+            },
+            "final_url": "https://www.amazon.com/dp/B07ZMGJCC4?productDetails&th=1&psc=1",
+            "results": [
                 {
-                    "enabledFields": [
-                        "view",
-                        "download"
-                    ],
-                    "name": "people:search"
-                },
-                {
-                    "enabledFields": [
-                        "view"
-                    ],
-                    "name": "people:paginate"
-                },
-                {
-                    "enabledFields": [
-                        "view",
-                        "download"
-                    ],
-                    "name": "property:search"
-                },
-                {
-                    "enabledFields": [
-                        "view"
-                    ],
-                    "name": "property:paginate"
-                },
-                {
-                    "enabledFields": [
-                        "view",
-                        "download"
-                    ],
-                    "name": "business:search"
-                },
-                {
-                    "enabledFields": [
-                        "view"
-                    ],
-                    "name": "business:paginate"
-                },
-                {
-                    "enabledFields": [
-                        "view",
-                        "download"
-                    ],
-                    "name": "product:search"
-                },
-                {
-                    "enabledFields": [
-                        "view"
-                    ],
-                    "name": "product:paginate"
+                    "dataType": "product",
+                    "asins": "B07ZMGJCC4",
+                    "brand": "CornBorn",
+                    "name": "CornBorn Choose Your Design - ISU Long Sleeve T-Shirt",
+                    "prices": [
+                        {
+                            "availability": "true",
+                            "color": "Black",
+                            "size": "X-Large",
+                            "merchant": "amazon.com",
+                            "shipping": "+ 6.99 shipping",
+                            "sourceURLs": [
+                                "https://www.amazon.com/dp/B07ZMGJCC4?productDetails&th=1&psc=1"
+                            ],
+                            "dateSeen": [
+                                "2021-01-13T16:48:00.000Z"
+                            ],
+                            "currency": "USD",
+                            "amountMin": 19.99,
+                            "amountMax": 19.99
+                        }
+                    ]
                 }
             ],
-            "customer_id": "cus_PwAxhL7ziAxv6C",
-            "date_created": "2024-04-16T20:28:20.279Z",
-            "date_updated": "2024-04-22T17:30:15.145Z",
-            "is_admin": false,
-            "id": 402
+            "errors": [],
+            "credits_charged": 1
         }
-```
-
-## Determining what data you have access to
-
-Our plans allow flexibility in both price and use of credits per month depend on what plan your account is subscribed to. Your can check your `plan_ids` to check what data types you have access to.
-
-```json
-{
-"plan_ids": [
-                "people-1k-99",
-                "property-10k-349",
-                "business-1k-trial",
-                "product-1k-trial"
-            ]
+    ]
 }
 ```
 
-Plan ids are commonly prefix with the data type it pertains to.\
-However if you have a custom plan or need help figuring out your data plan please contact billing@datafiniti.co
-
-## Find your credits used
-
-You can also use your GET https://api.datafiniti.co/v4/account to check your credits used of your account.\
-Credit used are broken up by data type:
-
-* `num_credits_used` -  legacy plan API calls.
-* `product_credits_used` - product data API calls.
-* `people_credits_used` - people data API calls.
-* `property_credits_used` - property data API calls.
-* `business_credits_used` - business data API calls.
-* `num_scrape_credits_used` - scrape & targeted update API calls.
-
-```json
-	    "num_credits_used": 0,
-            "product_credits_used": 0,
-            "people_credits_used": 0,
-            "property_credits_used": 0,
-            "business_credits_used": 0,
-            "num_scrape_credits_used": 0,
-```
-
-<br />
-
-## When Are Credits Charged to Your Account?
-
-There are multiple ways to spend credits. Let go through the ways this can happen:
-
-### API Searches
-
-No matter what data type you are using for a search API call, you are charged credits up to your `num_records` set in the body of the call.
-
-For example if I search for property using the follow call through postman:\
-POST https://api.datafiniti.co/v4/properties/search
+We send the data scraped from the URLs you provide through our normalization pipeline in an effort to provide you with data that's easier to work with. It's possible that this pipeline rejects all fields collected from the URL. In these cases, the `results` array will contain the following:
 
 ```json
 {
-    "query": "address:\"4801 Yucca Hl Dr\" AND province:TX AND (city:Austin OR postalCode:78744)",
-    "num_records":10
+    "error": "Scraped data failed to meet our validation standards."
 }
 ```
 
-You will recieve this response:
+The reason that `error` is present in the `results` array versus `data.errors` is because more than 1 result can be returned from a given URL (e.g. scraping a listing page on amazon that contains many products)
 
-```json
-{
-    "num_found": 1,
-    "total_cost": 1,
-    "records": [
-								" "address": "4801 Yucca Hl Dr",
-            "brokers": [
-                {
-                    "agent": "Ryana Stevson",
-                    "company": "Stevson Property Management",
-                    "dateSeen": "2023-10-30T04:08:00.000Z",
-                    "phones": [
-                        "(512) 670-8269"
-                    ]
-                },
-                {
-                    "agent": "Leasing Office",
-                    "company": "Stetson Property Management",
-                    "dateSeen": "2024-03-29T17:16:38.560Z",
-                    "phones": [
-                        "(512) 670-8269"
-                    ]
-                }
-            ]
-}
+## Supported Sources
+
+| Source  | Domain        | Identifier   | Health             |
+| :------ | :------------ | :----------- | :----------------- |
+| Amazon  | `amazon.com`  | `asins`      | :white-check-mark: |
+| Newegg  | `newegg.com`  | `skus.value` | :white-check-mark: |
+| Bestbuy | `bestbuy.com` | `skus.value` | :white-check-mark: |
+| Walmart | `walmart.com` | `websiteIDs` | :white-check-mark: |
+
+<Callout kind="info" title="What does health mean?">
+Health Indicates whether we're currently able to access a given source. There are times when our requests to a given source will fail for a short period which is when you would see an X
+</Callout>
+
+## Usage
+
+```javascript
+const axios = require('axios');
+const DF_TOKEN = "INPUT YOUR DF TOKEN HERE";
+
+(async () => {
+    const dfAPI = axios.create({
+        baseURL: 'https://api.datafiniti.co/v4',
+        headers: {
+            'Authorization': `Bearer ${DF_TOKEN}`,
+            'Content-type': 'application/json'
+        }
+    })
+    
+    try {
+        const resp = await dfAPI.post('/scrape', {
+            urls: ['https://www.amazon.com/dp/B07ZMGJCC4?productDetails&th=1&psc=1']
+        });
+
+        console.log(JSON.stringify(resp.data, null, 4));
+    } catch (error) {
+        const { response } = error;
+        
+        if (response) {
+            console.log(`Error ${(response.status)} Error: ${JSON.stringify(response.data, null, 4)}`);
+        } else {
+            console.log(`Error: ${error.stack}`);
+        }
+    }
+})();
 ```
-
-In this case since 1 record was found, only 1 `property_credit_used` was charged.
-
-<Callout kind="info" title="Credits Used On Search May Vary">
-
-If the credits consumed is under the stated credits consumed by the Search API, Datafiniti will only charge for the amount of records found.\
-Example:\
-If only 10 records are displayed, we charge 10 credits.\
-If 0 records are found, no credits will be charged.
-
-</Callout>
-
-Any time you attempt a download of the records found by a search, a *Download\_id* will be presented in the response of the API call. Your `total_cost` will dictate how many credits your account was charge on the download.
-
-<Callout kind="warning" title="Overages">
-
-Depending on the amount of credits needed to download a searched query, you will be charged an overage fee equal to the amount of credits over your credit's available. *NOTE* you will not be able to download the data files generated to your account until the overages are paid. If you do not know if your account is setup for overages, please contact us at billing@datafiniti.co
-
-</Callout>
-
-### Enrichment & Suppression API
-
-Enrichment & Suppression API calls are based on the number of `num_record` will be charge against your account upon submitting this request. Once the call is submitted and complete the `total_cost`. (Same as a normal download works) However this total is only comprehensive once the status of the download is complete.
-
-For more information on [Enrichment & Suppression](https://docs.datafiniti.co/docs/enrichment-suppression), you can read more about it here.
-
-<Callout kind="danger" title="️ Before using enrichment & suppression">
-
-Since Enrichment charge credit per the batch file you are enriching data from, you may be overcharged credits to your account upon submitting a enrichment request. If you do not know if overcharging is enable / disable on your account you may contact support@datafiniti.co to find this info out.
-
-</Callout>
-
-## Common credit related errors
-
-You will always receive and error message when your API or portal request exceed the monthly or yearly limit of credit on your plan.
-
-### API - exceeding your credit limit error
-
-Whether it be via postman, our [Property Data](https://docs.datafiniti.co/reference/properties) reference page, or any other coding language, you will receive a 400 error message when your credit limit will be reached. The error message will look like this.
-
-```json 400
-{
-  "errors": [
-    "`num_records` requested will exceed credit allotment for plan."
-  ]
-}
-```
-
-<Callout kind="danger" title="️  Exceeding your credit limit">
-
-If you plan to exceed your credit limit, please contact your Datafiniti customer success representative for refreshing or upgrade your accounts credit limit. Contact us at support@datafiniti.co to find this info out.
-
-</Callout>
-
-## Credit limit refresh period
-
-Your credits to your Datafiniti account refresh period is based on of your data plan subscription. This can vary from monthly to annually. For standard tier plans you can check your settings page [here](https://portal.datafiniti.co/settings). Please consult with your Datafiniti representative if you do not know your plan's refresh rate.
