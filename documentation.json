@@ -19,6 +19,10 @@
             "icon": "rocket",
             "pages": [
               {
+                "title": "hello",
+                "path": "hello"
+              },
+              {
                 "title": "Introduction",
                 "path": "introduction",
                 "icon": "home"
