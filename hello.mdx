@@ -1,161 +1,45 @@
-# Scrape API
+# Discover when clients sell their homes - Portal
 
-Get the web data you need in real-time
+# Introduction
 
-## Overview
+Datafiniti Property Data can help you identify when your own clients are selling or have recently sold their homes. You may be able to use this information to run certain kinds of sales or marketing campaigns. E.g., someone selling their home may be in need of a home loan to purchase a new property. They may need moving or home inspection services. Here's how you can set up a process to track and follow up with these folks.
 
-Our `/scrape` endpoint allows you to get the web data you need in real-time.
+## Maintain a list of your clients' addresses
 
-## Endpoint
+If you have a list of your clients, hopefully you also have a list of their home addresses. It might look something like this:
 
-`POST https://api.datafiniti.co/v4/scrape`
-
-## Input
-
-A json object containing the `urls` you want to scrape data from. The json object is structured like so:
-
-```json
-{
-    "urls": []
-}
+```
+Address, City, State, Zip
+------------------------
+11410 Jollyville Rd, Austin, TX, 78759
+400 Lavaca St, Austin, TX 78701
+2900 w anderson ln ste a, AUSTIN, TX, 78757
 ```
 
-You can either provide the URL you want to scrape as a string or you can choose to provide an object that contains the `domain` along with an `identifier` (e.g. SKU, ASIN) unique to the domain provided.\
-The following snippet contains an example of the accepted URL formats described above:
+## Check the current status of each address
 
-```json
-{
-    "urls": [
-        "https://www.amazon.com/dp/B07ZMGJCC4?productDetails&th=1&psc=1",
-        {
-            "domain": "amazon.com",
-            "identifier": "B07ZMGJCC4"
-        },
-        "https://www.newegg.com/p/1Z4-002P-015K6"
-    ]
-}
-```
+Using the portal, you can look up the most recent status of each address in the list above. We will start by typing the address in the address bar first:
 
-<Callout kind="info" title="Which URL format should I use?">
-`identifier` corresponds to fields in our [Product Data Schema](https://docs.datafiniti.co/docs/product-data-schema) which helps users that are already integrated with Datafiniti. If you are unfamiliar with our schema or if identifiers are providing any confusion, simply provide URLs as strings instead.
-</Callout>
+![Image](/images/imported/jollysearchrd.gif)
 
-The `urls` array must contain 1 URL at minimum with a maximum of 10. The URLs provided do not have to be from the same domain. We will scrape all URLs provided in the request body in parallel so long as we support them. The sources that we currently support can be found [Here](https://docs.datafiniti.co/docs/getting-started-with-realtime-updates). Please contact customer support if the source you want to scrape is not present in the hyperlinked section.
+In reality, the record will have much more data, but we're just truncating it here to make it easier to view. The important fields are mostRecentStatus and mostRecentStatusDate. These tell you that the property has a recently updated status and (in this case) is now Rental.
 
-<Callout kind="info" title="Rate Limiting">
-You may only make one request to the `/scrape` endpoint at a time.
-</Callout>
+### Using Filters to search on fields being guaranteed
 
-## Output
+You may want to search based on either specific fields or only list property found with specifically transaction data listed.\
+Coming from our example about we will search 1220 lavaca st to see if it has transaction data. We will accomplish this by utilizing the **Required Fields** checkbox for `transactions`.
 
-The response body returned to you is a json object that either contains a `data` array or an `errors` array. These arrays are mutually exclusive.
+![Image](/images/imported/lavacasearchfilter.gif)
 
-The presence of an `errors` array indicates that a fatal error occurred and none of the URLs provided in your request body were processed. The `errors` array will contain strings that indicate why we could not service your request. Please contact customer support and provide us with the request body that yielded an `errors` response should this occur to you during your usage of this feature. Please provide us with the response body returned to you as well.
+<br />
 
-The presence of a `data` array indicates that we were able to attempt scraping the URLs you provided in your request body. Each element in the `data` array will correspond to one of the URLs you provided in your request. These elements are json objects and will always contain the following fields:
+# Use the updated client file to run a campaign
 
-* `input`: An individual URL from the URLs array provided in your request body.
-* `finalized_url`: The resulting URL from generated from the URL you provided.
-* `results`: An array containing the data we scraped from the URL.
-* `errors`: An array containing error messages if any were encountered while attempting to scrape a specific URL. This errors array will always be present. It will be empty if no errors were encountered.
-* `credits_charged`: The number of scrape credits charged for the url. You will only get charged when the scrape is successful.
+Now with the updated status information in hand, you can integrate the file into your own CRM to run sales or marketing campaigns!
 
-The following snippet is an example response body:
+## Example Records
 
-```json
-{
-    "data": [
-        {
-            "input": {
-                "domain": "amazon.com",
-                "identifier": "B07ZMGJCC4"
-            },
-            "final_url": "https://www.amazon.com/dp/B07ZMGJCC4?productDetails&th=1&psc=1",
-            "results": [
-                {
-                    "dataType": "product",
-                    "asins": "B07ZMGJCC4",
-                    "brand": "CornBorn",
-                    "name": "CornBorn Choose Your Design - ISU Long Sleeve T-Shirt",
-                    "prices": [
-                        {
-                            "availability": "true",
-                            "color": "Black",
-                            "size": "X-Large",
-                            "merchant": "amazon.com",
-                            "shipping": "+ 6.99 shipping",
-                            "sourceURLs": [
-                                "https://www.amazon.com/dp/B07ZMGJCC4?productDetails&th=1&psc=1"
-                            ],
-                            "dateSeen": [
-                                "2021-01-13T16:48:00.000Z"
-                            ],
-                            "currency": "USD",
-                            "amountMin": 19.99,
-                            "amountMax": 19.99
-                        }
-                    ]
-                }
-            ],
-            "errors": [],
-            "credits_charged": 1
-        }
-    ]
-}
-```
+Here are example bulk download files of our previous query:
 
-We send the data scraped from the URLs you provide through our normalization pipeline in an effort to provide you with data that's easier to work with. It's possible that this pipeline rejects all fields collected from the URL. In these cases, the `results` array will contain the following:
-
-```json
-{
-    "error": "Scraped data failed to meet our validation standards."
-}
-```
-
-The reason that `error` is present in the `results` array versus `data.errors` is because more than 1 result can be returned from a given URL (e.g. scraping a listing page on amazon that contains many products)
-
-## Supported Sources
-
-| Source  | Domain        | Identifier   | Health             |
-| :------ | :------------ | :----------- | :----------------- |
-| Amazon  | `amazon.com`  | `asins`      | :white-check-mark: |
-| Newegg  | `newegg.com`  | `skus.value` | :white-check-mark: |
-| Bestbuy | `bestbuy.com` | `skus.value` | :white-check-mark: |
-| Walmart | `walmart.com` | `websiteIDs` | :white-check-mark: |
-
-<Callout kind="info" title="What does health mean?">
-Health Indicates whether we're currently able to access a given source. There are times when our requests to a given source will fail for a short period which is when you would see an X
-</Callout>
-
-## Usage
-
-```javascript
-const axios = require('axios');
-const DF_TOKEN = "INPUT YOUR DF TOKEN HERE";
-
-(async () => {
-    const dfAPI = axios.create({
-        baseURL: 'https://api.datafiniti.co/v4',
-        headers: {
-            'Authorization': `Bearer ${DF_TOKEN}`,
-            'Content-type': 'application/json'
-        }
-    })
-    
-    try {
-        const resp = await dfAPI.post('/scrape', {
-            urls: ['https://www.amazon.com/dp/B07ZMGJCC4?productDetails&th=1&psc=1']
-        });
-
-        console.log(JSON.stringify(resp.data, null, 4));
-    } catch (error) {
-        const { response } = error;
-        
-        if (response) {
-            console.log(`Error ${(response.status)} Error: ${JSON.stringify(response.data, null, 4)}`);
-        } else {
-            console.log(`Error: ${error.stack}`);
-        }
-    }
-})();
-```
+[Discovered client example CSV](https://drive.google.com/file/d/1I183NOK-Eiter0NMLsUyNHcDayPtIeXh/view?usp=share_link)\
+[Discovered client example Json](https://drive.google.com/file/d/1I183NOK-Eiter0NMLsUyNHcDayPtIeXh/view?usp=share_link)
