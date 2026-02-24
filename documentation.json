@@ -9,6 +9,10 @@
             "group": "Datafiniti API",
             "pages": [
               {
+                "title": "bai",
+                "path": "bai"
+              },
+              {
                 "title": "hello1",
                 "path": "hello1"
               },
