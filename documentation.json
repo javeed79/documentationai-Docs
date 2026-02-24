@@ -9,6 +9,14 @@
             "group": "Datafiniti API",
             "pages": [
               {
+                "title": "readme-1",
+                "path": "readme-1"
+              },
+              {
+                "title": "practice",
+                "path": "practice"
+              },
+              {
                 "title": "bai",
                 "path": "bai"
               },
