@@ -9,6 +9,10 @@
             "group": "Datafiniti API",
             "pages": [
               {
+                "title": "this-1",
+                "path": "this-1"
+              },
+              {
                 "title": "readme-1",
                 "path": "readme-1"
               },
