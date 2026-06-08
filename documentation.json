@@ -1,7 +1,7 @@
 {
   "name": "Linear",
   "ai": {
-    "ai-assistant:openByDefault": false
+    "ai-assistant:default-open": false
   },
   "colors": {
     "light": {
