@@ -1,58 +1,64 @@
 ---
 title: Quickstart
-description: Minimal steps to customize this sample starter kit.
+description: Create a workspace, invite your team, and file your first issues in Linear within minutes.
 ---
-## Overview
 
-<Callout kind="alert" collapsed="false">
-  This site ships with placeholder content. Use this quickstart to replace it with your real product docs.
+## Prerequisites
+
+<Callout kind="info">
+You need a valid email address. No credit card is required to start.
 </Callout>
 
-## 1. Update a page
+## Create your workspace
 
 <Steps>
-  <Step title="Edit introduction" icon="edit" title-type="p">
-    Replace the sample introduction with a concise overview of your product and the key actions you want new users to take first.
+  <Step title="Sign up" icon="user-plus">
+    Go to the Linear sign-up page and create an account with your email. Verify your address to continue.
   </Step>
-
-  <Step title="Preview your change" icon="monitor" title-type="p">
-    Use your dashboard board editor to confirm the updated introduction looks and reads as expected.
+  <Step title="Name your workspace" icon="edit">
+    Enter a workspace name such as `Acme Team`. Linear creates a default team inside the workspace automatically.
+  </Step>
+  <Step title="Invite teammates" icon="users">
+    Add email addresses for your team members. They receive an invitation link and join instantly.
   </Step>
 </Steps>
 
-## 2. Add a new page
+## File your first issue
 
-<Steps>
-  <Step title="Add a page" icon="file-text" title-type="p">
-    Create a new `page` by clicking on the + button from the left navigation bar of dashboard. If you are using git, create the .mdx file and add to navigation bar using documentation.json
-  </Step>
-</Steps>
+<CodeGroup tabs="cURL,JavaScript">
+```bash
+curl -X POST https://api.example.com/issues \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"title":"Update landing page copy","team":"eng"}'
+```
 
-## Example onboarding flow (replace with yours)
+```javascript
+const response = await fetch("https://api.example.com/issues", {
+  method: "POST",
+  headers: {
+    Authorization: "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    title: "Update landing page copy",
+    team: "eng",
+  }),
+});
+```
+</CodeGroup>
 
-1. Sign up for an account and verify your email.
+## Basic navigation
 
-2. Create your first workspace, project, or environment.
-
-3. Add one integration or data source to connect your existing tools.
-
-4. Complete a guided action (for example, run your first job or publish your first resource).
-
-5. Invite a teammate and assign a basic role or permission.
-
-## 3. Connect API Reference (optional)
-
-If you have an API, replace `openapi.yaml` with your real OpenAPI file. If you do not need an API reference, remove that tab either from dashboard or  `documentation.json`.
+After the first issue appears in your inbox view, use the sidebar to switch between Inbox, My Issues, and All Issues. Press `C` to create a new issue from anywhere. Press `?` to open the keyboard shortcuts panel.
 
 ## Next steps
 
-<Columns cols="2">
-  <Card title="Core Concepts" href="/concepts" icon="layers" horizontal="false">
-    Keep the mental model simple and easy to scan.
+<Columns cols={2}>
+  <Card title="Issue management" icon="check-circle" href="#issue-creation">
+    Learn how to assign, label, and prioritize issues.
   </Card>
-
-  <Card title="Authentication" href="/authentication" icon="lock" horizontal="false">
-    Add your real auth flows and security notes.
+  <Card title="Workspace settings" icon="settings" href="#workspace-setup">
+    Configure teams, integrations, and permissions.
   </Card>
 </Columns>
-

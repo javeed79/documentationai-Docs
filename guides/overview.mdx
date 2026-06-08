@@ -1,0 +1,74 @@
+---
+title: Feature Overview
+description: Discover Linear's distinctive features including cycles, projects, views, and keyboard-first design.
+---
+
+## Overview
+
+Linear delivers a focused issue tracking experience built around speed and clarity. You organize work through cycles that align with your team's rhythm, projects that group related issues, and flexible views that surface exactly what matters. Keyboard-first navigation keeps your hands on the keys so you stay in flow.
+
+## Cycles and Projects
+
+Cycles replace rigid sprints with rolling two-week windows that automatically roll forward. You assign issues to the current cycle and watch progress update in real time.
+
+Projects let you bundle issues that share a goal without forcing every task into a cycle.
+
+<Columns cols={2}>
+  <Card title="Cycles" icon="refresh-cw" href="#cycles-and-projects">
+    Rolling two-week periods that keep momentum without ceremony.
+  </Card>
+  <Card title="Projects" icon="folder" href="#cycles-and-projects">
+    Group related issues and track outcomes across cycles.
+  </Card>
+</Columns>
+
+## Custom Views
+
+You create saved views that filter and sort issues exactly how you need them. Switch between board, list, and timeline layouts without losing your filters.
+
+<Tabs>
+  <Tab title="Board" icon="layout">
+    Drag issues between columns that match your workflow states.
+  </Tab>
+  <Tab title="List" icon="list">
+    Sort by priority, assignee, or due date with quick inline edits.
+  </Tab>
+  <Tab title="Timeline" icon="calendar">
+    See issue spans across weeks and spot dependencies at a glance.
+  </Tab>
+</Tabs>
+
+## Integrations
+
+Linear connects with the tools you already use. GitHub, Slack, and Figma sync status automatically so context stays in one place.
+
+<CodeGroup tabs="CLI,API">
+```bash
+linear issue create --title "Fix login redirect" --project "Auth"
+```
+```json
+POST https://api.example.com/issues
+{
+  "title": "Fix login redirect",
+  "projectId": "proj_123"
+}
+```
+</CodeGroup>
+
+## Examples
+
+A product team uses cycles to ship weekly improvements while a design project tracks research issues across multiple cycles.
+
+<Expandable title="See a sample workflow" default-open="false">
+
+Create a cycle, add issues from your backlog, then open a filtered view that shows only unassigned work. Update status with a single keystroke and watch the integration post to Slack.
+
+</Expandable>
+
+## Best Practices
+
+Keep cycles short and focused. Use projects to capture outcomes rather than every task. Build views that answer recurring questions instead of creating one-off filters.
+
+<Callout kind="tip">
+  Press `?` in any view to open the full keyboard shortcut reference.
+</Callout>
