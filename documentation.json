@@ -1,5 +1,9 @@
 {
   "name": "Linear",
+  "ai": {
+    "ai-assistant:enabled": true,
+    "ai-assistant:mode": "floating"
+  },
   "colors": {
     "light": {
       "brand": "#5E6AD2",
