@@ -1,8 +1,7 @@
 {
   "name": "Linear",
   "ai": {
-    "ai-assistant:enabled": false,
-    "ai-assistant:mode": "floating"
+    "ai-assistant:openByDefault": false
   },
   "colors": {
     "light": {
