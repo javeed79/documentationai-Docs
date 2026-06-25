@@ -1,37 +1,23 @@
----
-title: Introduction
-description: Learn about Linear, the modern issue tracking tool built for speed and clarity in software development.
----
+<CodeGroup default-tab="1" show-lines="true" tabs={["Javeed"]}>
+  ```typescript
+  const response = await fetch('/api/docs', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ title: 'Getting Started' })
+  });
+  ```
 
-<Image src="https://blob-cdn.documentation.ai/org-2ebb2ef5-dd91-493f-9938-283fbdb14c81/doc-d2a73d2e-4391-4446-a5c8-2d0b41b7c4c1/1774416392648-tsntejft5od-Image-9.png?q=85&fm=auto&auto=compress%2Cformat" alt="Linear documentation" width="800" height="400" />
+  ```python Javeed
+  import requests
+  response = requests.post('/api/docs',
+    json={'title': 'Getting Started'}
+  )
+  ```
 
-## Welcome
+  ```bash
+  curl -X POST https://api.example.com/docs \\
+    -H "Content-Type: application/json" \\
+    -d '{"title": "Getting Started"}'
+  ```
+</CodeGroup>
 
-Linear delivers modern issue tracking built for speed and clarity in software development. It combines a focused philosophy with powerful workflows that keep teams aligned and shipping.
-
-<Columns cols={2}>
-  <Card title="Speed" icon="zap">
-    Create, update, and triage issues in seconds with keyboard-first design.
-  </Card>
-  <Card title="Clarity" icon="eye">
-    See priorities at a glance with clean layouts and real-time updates.
-  </Card>
-  <Card title="Workflows" icon="git-branch">
-    Move work through custom cycles, states, and team processes.
-  </Card>
-  <Card title="Collaboration" icon="users">
-    Comment, assign, and track progress without leaving the issue view.
-  </Card>
-</Columns>
-
-<Card title="Getting started" icon="book-open" href="/getting-started" horizontal cta="Read the guide">
-  Set up your workspace and import your first projects in minutes.
-</Card>
-
-<Card title="Team workflows" icon="users" href="/workflows" horizontal cta="Explore patterns">
-  Learn how high-performing teams structure their Linear processes.
-</Card>
-
-<Callout kind="tip">
-  Start with keyboard shortcuts to feel Linear's speed immediately.
-</Callout>

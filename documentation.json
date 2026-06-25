@@ -1,16 +1,13 @@
 {
-  "name": "Linear",
-  "ai": {
-    "ai-assistant:default-open": false
-  },
+  "name": "Twilio",
   "colors": {
     "light": {
-      "brand": "#5E6AD2",
+      "brand": "#3B82F6",
       "heading": "#1B1F24",
       "text": "#1B1F24"
     },
     "dark": {
-      "brand": "#9DA4DF",
+      "brand": "#87B1F6",
       "heading": "#FFFFFF",
       "text": "#E5E7EB"
     }
@@ -18,7 +15,7 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Docs",
         "icon": "book-open",
         "groups": [
           {
@@ -28,11 +25,11 @@
             "pages": [
               {
                 "title": "Introduction",
-                "path": "introduction"
+                "path": "api-docs/introduction"
               },
               {
                 "title": "Quickstart",
-                "path": "quickstart"
+                "path": "api-docs/quickstart"
               }
             ]
           },
@@ -42,10 +39,32 @@
             "expandable": false,
             "pages": [
               {
-                "title": "Feature Overview",
-                "path": "guides/overview"
+                "title": "Authentication",
+                "path": "api-docs/authentication"
               }
             ]
+          },
+          {
+            "group": "Troubleshooting",
+            "icon": "alert-triangle",
+            "expandable": false,
+            "pages": [
+              {
+                "title": "Error Codes",
+                "path": "api-docs/errors"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "icon": "code",
+        "groups": [
+          {
+            "group": "API Reference",
+            "icon": "code",
+            "openapi": "api-reference/openapi.yaml"
           }
         ]
       },
@@ -54,8 +73,8 @@
         "icon": "clock",
         "groups": [
           {
-            "group": "Changelog",
-            "icon": "folder",
+            "group": "Overview",
+            "icon": "list",
             "expandable": false,
             "pages": [
               {
@@ -72,8 +91,8 @@
         "icon": "map",
         "groups": [
           {
-            "group": "Roadmap",
-            "icon": "folder",
+            "group": "Overview",
+            "icon": "list",
             "expandable": false,
             "pages": [
               {
