@@ -13,98 +13,10 @@
     }
   },
   "navigation": {
-    "tabs": [
+    "pages": [
       {
-        "tab": "Docs",
-        "icon": "book-open",
-        "groups": [
-          {
-            "group": "Getting started",
-            "icon": "rocket",
-            "expandable": false,
-            "pages": [
-              {
-                "title": "Introduction",
-                "path": "api-docs/introduction"
-              },
-              {
-                "title": "Quickstart",
-                "path": "api-docs/quickstart"
-              }
-            ]
-          },
-          {
-            "group": "Guides",
-            "icon": "book-open",
-            "expandable": false,
-            "pages": [
-              {
-                "title": "Authentication",
-                "path": "api-docs/authentication"
-              }
-            ]
-          },
-          {
-            "group": "Troubleshooting",
-            "icon": "alert-triangle",
-            "expandable": false,
-            "pages": [
-              {
-                "title": "Error Codes",
-                "path": "api-docs/errors"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "API Reference",
-        "icon": "code",
-        "groups": [
-          {
-            "group": "API Reference",
-            "icon": "code",
-            "openapi": "api-reference/openapi.yaml"
-          }
-        ]
-      },
-      {
-        "tab": "Changelog",
-        "icon": "clock",
-        "groups": [
-          {
-            "group": "Overview",
-            "icon": "list",
-            "expandable": false,
-            "pages": [
-              {
-                "title": "Changelog",
-                "path": "changelog",
-                "show-sidebar": false
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Roadmap",
-        "icon": "map",
-        "groups": [
-          {
-            "group": "Overview",
-            "icon": "list",
-            "expandable": false,
-            "pages": [
-              {
-                "title": "Roadmap",
-                "path": "roadmap",
-                "show-sidebar": false,
-                "show-toc": false,
-                "content-width": "wide"
-              }
-            ]
-          }
-        ]
+        "title": "hai",
+        "path": "hai"
       }
     ]
   }
