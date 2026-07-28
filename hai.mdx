@@ -1,1 +1,42 @@
-hello hai
+---
+title: Database Actions
+description: >-
+  This article describes the various database actions used and their
+  functionalities in algoQA.
+---
+## Overview
+
+This article describes the various database actions used and their functionalities in algoQA.
+
+## Database keywords
+
+The following table describes the database actions used in algoQA and their descriptions.
+
+<table><thead><tr><p><th>Keyword</th>
+<th>Description</th></p></tr></thead><tbody><tr><p><td>Custom-specific parameter for PostgreSql</td></p><td><p><p>Retrieve data from a PostgreSQL database and verify it using a parameterized query.</p>
+<p>For example, consider a scenario where you have a table called <code />, and you want to fetch all records where the department is "Sales." You can pass the parameter in the following format during the Node Configuration: <code /></p>
+<p>For more information, refer to <a href="https://algoshack-support.freshdesk.com/support/solutions/articles/1070000065866-database-testing" target="_blank" rel="noreferrer">Adding a Parameter</a> in the Node Configuration.</p></p></td></tr><tr><p><td>get data from db and verify</td></p><td><p><p>Retrieve data from a database and verify it using a parameterized query.</p>
+<p>For example, consider a scenario for verifying the user details from a database and check that the user information is correctly stored in the database:</p></p><ul><p><li><strong>Accessing the database:</strong> Ensure we have a secure connection to our database system.</li>
+<li><strong>Executing the query:</strong> Search for specific user details using their username.</li>
+<li><strong>Verification:</strong> Confirm that the user's details, such as their username, email address, and role, match what we expect.</li></p></ul><p><p>You can pass the parameter in the following format during the Node Configuration: <code />. In this, replace <code /> with your actual query statement.</p></p></td></tr><tr><p><td>get data from db and verify in mongodb</td></p><td><p><p>Retrieve data from a Mongo database and verify it using a parameterized query.</p>
+<p>Use the same preceding example, except that you would be verifying user details from the Mongo database and check the user information stored in the Mongo database.</p>
+<p>You can pass the parameter in the following format during the Node Configuration: <code />. In this, replace <code /> with your actual query statement.</p></p></td></tr><tr><p><td>verify db data in sql</td></p><td><p><p>Verifying the data in a database involves running SQL queries to check for the existence of certain data.</p>
+<p>For example, check if there are any users whose status is 'active' using the following SQL query: <code /></p>
+<p>Use this query to verify the presence of active users in the users table. If the query returns any rows, it confirms that there are active users.</p>
+<p>You can pass the parameter in the following format during the Node Configuration: <code />. In this, replace <code /> with your actual query statement.</p></p></td></tr><tr><p><td>update db data in sql</td></p><td><p><p>Updating data in a SQL database involves modifying existing records based on certain conditions or criteria.</p>
+<p>For example, updating a product price in a SQL database. Consider a table named <code /> with columns <code />, <code />, <code />, and <code />. Let's update the price for a product with <code />.</p>
+<p>You can pass the parameter in the following format during the Node Configuration: <code />. In this, replace <code /> with your actual query statement.</p></p></td></tr><tr><p><td>get date from db and verify datetime (staging)</td></p><td><p><p>Retrieve and verify datetime values from a database. You can execute a query that fetches the relevant records and checks if the retrieved dates meet certain criteria.</p>
+<p>For example, consider a scenario for retrieving user registration dates from a database and verifying if they are within the last 30 days. Assume that you have a table called users with a column <code />. Your query might look like this: <code /></p>
+<p>You can pass the parameter in the following format during the Node Configuration: <code /></p></p></td></tr><tr><p><td>verify db data in mysql</td></p><td><p><p>Verifies database data in MySQL by executing queries to check for specific conditions.</p>
+<p>For example, consider a scenario to verify if there are any users whose status is "active." To check for active users in a table called users, your query might look like this: <code /></p>
+<p>You can pass the parameter in the following format during the Node Configuration: <code /></p></p></td></tr><tr><p><td>copied db data in sql</td></p><td><p><p>Involves copying specific data from one table to another within a SQL database. The query selects particular columns from a source table and inserts them into a target table, which is useful for reporting or data migration purposes.</p>
+<p>For example, consider a Table1 containing customer information, and you want to copy specific columns into Table2. To copy <code />, <code />, and <code />, you can execute: <code /></p>
+<p>You can pass the parameter in the following format during the Node Configuration: <code /></p></p></td></tr></tbody></table>
+
+## Related topics
+
+<Columns cols="2">
+  <Card title="Adding or Modifying Default actions" href="/build-and-automate/using-algoqa-actions/default-actions/adding-or-modifying-default-actions" icon="file-text" horizontal="false">
+    To add, modify or update a UI element, refer to article [Adding or Modifying Default actions.](/build-and-automate/using-algoqa-actions/default-actions/adding-or-modifying-default-actions)
+  </Card>
+</Columns>
